@@ -9,7 +9,7 @@ mod_pts = []
 for [x,y] in pts:
     mod_pts.append([x *  265, y * 265])
 
-pts = np.array(mod_pts)
+pts = np.asarray(mod_pts, dtype='int32')
 print(pts)
 
 print(image.shape)
@@ -20,20 +20,8 @@ color = (255, 0, 0)
 # Line thickness of 2 px
 thickness = 2
 
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-  
-# Find Canny edges
-edged = cv2.Canny(gray, 30, 200)
+polylines = cv2.polylines(image, [pts], True, color, thickness)
 
-contours, hierarchy = cv2.findContours(edged, 
-    cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
-im_contours = cv2.drawContours(image, contours, -1, (0,255,0), 3)
-
-new_pts = np.array([[47.21,32], [237, 33], [234,227], [41,220],[47,32]])
-polylines = cv2.polylines(image, [new_pts], True, color, thickness)
-
-cv2.imshow('contours', im_contours)
 cv2.imshow('polylines', polylines)
 
 cv2.waitKey(0)
